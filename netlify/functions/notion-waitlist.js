@@ -36,21 +36,21 @@ exports.handler = async (event, context) => {
     const data = JSON.parse(event.body || "{}");
 
     const {
-      store_type,
-      selling_since,
-      monthly_orders,
-      platforms,
-      orders_recording,
-      cod_usage,
-      works_with_affiliates,
-      main_problem,
-      store_name,
-      email,
-      whatsapp,
-      notes,
-      status,
-    } = data;
-
+  store_type,
+  selling_since,
+  monthly_orders,
+  platforms,
+  orders_recording,
+  cod_usage,
+  works_with_affiliates,
+  how_track_affiliate_orders,
+  main_problem,
+  store_name,
+  email,
+  whatsapp,
+  notes,
+  status,
+} = data;
     if (!store_name || !email) {
       return {
         statusCode: 400,
@@ -60,30 +60,39 @@ exports.handler = async (event, context) => {
     }
 
     const properties = {
-      "Store / Person": {
-        title: [{ text: { content: store_name } }],
-      },
-      "Store Type": store_type ? { select: { name: store_type } } : undefined,
-      "Selling Since": selling_since ? { select: { name: selling_since } } : undefined,
-      "Monthly Orders": monthly_orders ? { select: { name: monthly_orders } } : undefined,
-      "Main Platforms": Array.isArray(platforms)
-        ? { multi_select: platforms.map((p) => ({ name: p })) }
-        : undefined,
-      "Orders Recording": orders_recording ? { select: { name: orders_recording } } : undefined,
-      "COD Usage": cod_usage ? { select: { name: cod_usage } } : undefined,
-      "Works With Affiliates": works_with_affiliates
-        ? { select: { name: works_with_affiliates } }
-        : undefined,
-      "Main Problem": main_problem
-        ? { rich_text: [{ text: { content: main_problem } }] }
-        : undefined,
-      Email: { email },
-      WhatsApp: whatsapp
-        ? { rich_text: [{ text: { content: whatsapp } }] }
-        : undefined,
-      Notes: notes ? { rich_text: [{ text: { content: notes } }] } : undefined,
-      Status: { status: { name: status || "New" } },
-    };
+  "Store / Person": {
+    title: [{ text: { content: store_name } }],
+  },
+  "Store Type": store_type ? { select: { name: store_type } } : undefined,
+  "Selling Since": selling_since ? { select: { name: selling_since } } : undefined,
+  "Monthly Orders": monthly_orders ? { select: { name: monthly_orders } } : undefined,
+  "Main Platforms": Array.isArray(platforms)
+    ? { multi_select: platforms.map((p) => ({ name: p })) }
+    : undefined,
+  "Orders Recording": orders_recording ? { select: { name: orders_recording } } : undefined,
+  "COD Usage": cod_usage ? { select: { name: cod_usage } } : undefined,
+  "Works With Affiliates": works_with_affiliates
+    ? { select: { name: works_with_affiliates } }
+    : undefined,
+
+  // هنا الجديد: عمود How Track Affiliate Orders في Notion
+  "How Track Affiliate Orders": how_track_affiliate_orders
+    ? { rich_text: [{ text: { content: how_track_affiliate_orders } }] }
+    : undefined,
+
+  "Main Problem": main_problem
+    ? { rich_text: [{ text: { content: main_problem } }] }
+    : undefined,
+
+  Email: { email },
+  WhatsApp: whatsapp
+    ? { rich_text: [{ text: { content: whatsapp } }] }
+    : undefined,
+  Notes: notes
+    ? { rich_text: [{ text: { content: notes } }] }
+    : undefined,
+  Status: { status: { name: status || "New" } },
+};
 
     Object.keys(properties).forEach((key) => {
       if (properties[key] === undefined) delete properties[key];
