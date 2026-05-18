@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>منصة تنظيم التجارة الإلكترونية – قائمة الانتظار</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind Play CDN [web:88] -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply min-h-screen bg-slate-950 text-slate-50;
+          direction: rtl;
+        }
+      }
+      @layer utilities {
+        .fade-enter {
+          @apply opacity-0 translate-y-2;
+        }
+        .fade-enter-active {
+          @apply opacity-100 translate-y-0 transition-all duration-300;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center px-4 py-8">
+    <div
+      class="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 shadow-[0_0_80px_rgba(56,189,248,0.35)]"
+    >
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%),_radial-gradient(circle_at_bottom,_rgba(16,185,129,0.18),_transparent_55%)] animate-pulse"
+      ></div>
+
+      <div class="relative grid gap-8 md:grid-cols-[1.1fr_1fr] p-6 sm:p-8">
+        <!-- النص -->
+        <section class="flex flex-col justify-center">
+          <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] text-sky-300">
+            <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            منصة قيد التطوير للتجّار الذين يبيعون أونلاين في الجزائر
+          </div>
+
+          <h1 class="mb-3 text-2xl font-semibold leading-tight sm:text-3xl lg:text-4xl">
+            نظّم طلباتك
+            <span class="bg-gradient-to-l from-sky-400 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
+              وعمولات المسوّقين
+            </span>
+            في مكان واحد
+          </h1>
+
+          <p class="mb-4 text-sm text-slate-300">
+            إذا كنت تبيع عبر فيسبوك / إنستغرام / واتساب وتستعمل الدفع عند الاستلام (COD)،
+            هذه المنصة مصمّمة لتخلّصك من فوضى الرسائل والدفاتر وتسهّل عليك حساب العمولات
+            لكل مسوّق أو إنفلونسر.
+          </p>
+
+          <ul class="mb-5 space-y-2 text-sm text-slate-200">
+            <li class="flex items-start gap-2">
+              <span class="mt-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-sky-500/80 text-[10px]">✓</span>
+              تتبع واضح لكل طلب: من أين جاء ومن هو المسوّق المسؤول عنه.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/80 text-[10px]">✓</span>
+              حساب عمولات المسوّقين في ثواني بدل ساعات من Excel والحوارات.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-fuchsia-500/80 text-[10px]">✓</span>
+              لوحة بسيطة بالأرقام المهمّة فقط: الطلبات، الإرجاعات، أداء كل مسوّق.
+            </li>
+          </ul>
+
+          <p class="text-[12px] text-slate-400">
+            جاوب على هذا الاستبيان القصير (3 خطوات) وسنضيفك إلى قائمة الانتظار.
+            عندما نطلق النسخة الأولى، ستكون من أوّل من يجربها وربما تحصل على عرض خاص للأوائل.
+          </p>
+        </section>
+
+        <!-- الفورم -->
+        <section
+          class="rounded-2xl bg-slate-950/60 p-4 shadow-inner shadow-slate-900/40 backdrop-blur md:p-5"
+        >
+          <div class="mb-4">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span>النشاط</span>
+              <span>العمل اليوم والمشاكل</span>
+              <span>التسجيل في القائمة</span>
+            </div>
+            <div class="mt-2 h-1.5 w-full rounded-full bg-slate-800">
+              <div
+                id="progress-bar"
+                class="h-full w-1/3 rounded-full bg-gradient-to-l from-sky-400 via-emerald-400 to-cyan-300 transition-all duration-300"
+              ></div>
+            </div>
+            <p id="step-label" class="mt-1 text-[11px] text-slate-400">
+              الخطوة 1 من 3
+            </p>
+          </div>
+
+          <form id="waitlist-form" class="space-y-5">
+            <!-- STEP 1 -->
+            <div class="step" data-step="1">
+              <h2 class="mb-2 text-sm font-semibold text-slate-100">
+                الخطوة 1: عن نشاطك في التجارة الإلكترونية
+              </h2>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">نوع نشاطك الأساسي*</label>
+                <select
+                  name="store_type"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="أزياء">أزياء</option>
+                  <option value="تجميل / عناية">تجميل / عناية</option>
+                  <option value="إلكترونيات / إكسسوارات">إلكترونيات / إكسسوارات</option>
+                  <option value="منتجات رقمية">منتجات رقمية (كورسات / خدمات)</option>
+                  <option value="متجر عام">متجر عام (General Store)</option>
+                  <option value="أخرى">أخرى</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">منذ متى وأنت تبيع أونلاين؟*</label>
+                <select
+                  name="selling_since"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="أقل من 3 أشهر">أقل من 3 أشهر</option>
+                  <option value="من 3 إلى 12 شهر">من 3 إلى 12 شهر</option>
+                  <option value="أكثر من سنة">أكثر من سنة</option>
+                </select>
+              </div>
+
+              <div class="mb-1">
+                <label class="mb-1 block text-xs font-medium">كم عدد الطلبات تقريبًا في الشهر؟*</label>
+                <select
+                  name="monthly_orders"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="أقل من 50">أقل من 50</option>
+                  <option value="50–200">50–200</option>
+                  <option value="أكثر من 200">أكثر من 200</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step hidden" data-step="2">
+              <h2 class="mb-2 text-sm font-semibold text-slate-100">
+                الخطوة 2: طريقة العمل والمسوّقين اليوم
+              </h2>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">على أي منصّات تبيع حاليًا؟*</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="Facebook" class="h-3 w-3" />
+                    فيسبوك
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="Instagram" class="h-3 w-3" />
+                    إنستغرام
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="TikTok" class="h-3 w-3" />
+                    تيك توك
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="Website" class="h-3 w-3" />
+                    موقع إلكتروني
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="Marketplace" class="h-3 w-3" />
+                    Marketplace
+                  </label>
+                  <label class="flex cursor-pointer items-center gap-2 text-[11px]">
+                    <input type="checkbox" name="platforms" value="Other" class="h-3 w-3" />
+                    أخرى
+                  </label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">كيف تسجّل الطلبات اليوم؟*</label>
+                <select
+                  name="orders_recording"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="فقط في المحادثات">فقط في المحادثات (واتساب / DM)</option>
+                  <option value="Sheets / Excel">Sheets / Excel</option>
+                  <option value="دفتر ورقي">دفتر ورقي</option>
+                  <option value="نظام آخر">نظام آخر</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">هل تستعمل الدفع عند الاستلام (COD)؟*</label>
+                <select
+                  name="cod_usage"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="COD فقط">COD فقط</option>
+                  <option value="COD + طرق أخرى">COD + طرق أخرى</option>
+                  <option value="نادرًا COD">نادرًا COD</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">هل تعمل مع مسوّقين بالعمولة / إنفلونسرز؟*</label>
+                <select
+                  name="works_with_affiliates"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                >
+                  <option value="">اختر...</option>
+                  <option value="نعم">نعم</option>
+                  <option value="لا">لا</option>
+                  <option value="أفكر في ذلك">أفكر في ذلك</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="mb-1 block text-xs font-medium"
+                  >أكبر مشكل تعاني منه اليوم في الطلبات أو العمولات؟*</label
+                >
+                <textarea
+                  name="main_problem"
+                  rows="2"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                  placeholder="اكتب بجملة أو جملتين أكبر مشكل يتعبك اليوم..."
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step hidden" data-step="3">
+              <h2 class="mb-2 text-sm font-semibold text-slate-100">
+                الخطوة 3: التسجيل في قائمة الانتظار
+              </h2>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">اسم المتجر أو البراند*</label>
+                <input
+                  type="text"
+                  name="store_name"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  placeholder="مثال: DZ Fashion Shop"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium">بريدك الإلكتروني*</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  placeholder="example@mail.com"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium"
+                  >رقم واتساب (اختياري – لإرسال إشعار قصير عند الإطلاق)</label
+                >
+                <input
+                  type="text"
+                  name="whatsapp"
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  placeholder="+213..."
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-1 block text-xs font-medium"
+                  >أي ملاحظة أو ميزة تتمنى وجودها في مثل هذا النظام؟ (اختياري)</label
+                >
+                <textarea
+                  name="notes"
+                  rows="2"
+                  class="w-full rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  placeholder="اكتب بحرية، هذا يساعدنا نبني شيء فعلاً مفيد لك..."
+                ></textarea>
+              </div>
+
+              <input type="hidden" name="status" value="New" />
+            </div>
+
+            <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  id="prev-btn"
+                  class="hidden rounded-full border border-slate-700 bg-slate-900/70 px-4 py-2 text-xs font-medium text-slate-100 hover:bg-slate-800"
+                >
+                  ⬅ السابق
+                </button>
+                <button
+                  type="button"
+                  id="next-btn"
+                  class="rounded-full bg-gradient-to-l from-sky-500 via-cyan-400 to-emerald-400 px-5 py-2 text-xs font-semibold text-slate-950 shadow-lg shadow-sky-500/30 hover:brightness-110"
+                >
+                  التالي ➜
+                </button>
+                <button
+                  type="submit"
+                  id="submit-btn"
+                  class="hidden rounded-full bg-gradient-to-l from-emerald-500 via-sky-400 to-teal-400 px-6 py-2 text-xs font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 hover:brightness-110"
+                >
+                  انضم إلى قائمة الانتظار
+                </button>
+              </div>
+              <span id="status-msg" class="text-[11px] text-slate-400"></span>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const steps = Array.from(document.querySelectorAll(".step"));
+      const progressBar = document.getElementById("progress-bar");
+      const stepLabel = document.getElementById("step-label");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const submitBtn = document.getElementById("submit-btn");
+      const form = document.getElementById("waitlist-form");
+      const statusMsg = document.getElementById("status-msg");
+
+      let currentStep = 1;
+      const totalSteps = steps.length;
+
+      function showStep(step) {
+        steps.forEach((s) => {
+          const n = Number(s.dataset.step);
+          if (n === step) {
+            s.classList.remove("hidden");
+            s.classList.add("fade-enter");
+            requestAnimationFrame(() => {
+              s.classList.add("fade-enter-active");
+            });
+          } else {
+            s.classList.add("hidden");
+            s.classList.remove("fade-enter", "fade-enter-active");
+          }
+        });
+
+        const percent = (step / totalSteps) * 100;
+        progressBar.style.width = percent + "%";
+        stepLabel.textContent = `الخطوة ${step} من ${totalSteps}`;
+
+        prevBtn.classList.toggle("hidden", step === 1);
+        nextBtn.classList.toggle("hidden", step === totalSteps);
+        submitBtn.classList.toggle("hidden", step !== totalSteps);
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentStep > 1) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (currentStep < totalSteps) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+
+      showStep(currentStep);
+
+      const BACKEND_URL = "/.netlify/functions/notion-waitlist";
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        statusMsg.textContent = "جارٍ إرسال بياناتك...";
+        statusMsg.className = "text-[11px] text-amber-300";
+
+        const formData = new FormData(form);
+        const payload = {};
+
+        formData.forEach((value, key) => {
+          if (key === "platforms") {
+            if (!payload.platforms) payload.platforms = [];
+            payload.platforms.push(value);
+          } else {
+            payload[key] = value;
+          }
+        });
+
+        try {
+          const res = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) throw new Error("Request failed");
+
+          statusMsg.textContent = "شكراً! تم تسجيلك في قائمة الانتظار ✅";
+          statusMsg.className = "text-[11px] text-emerald-300";
+          form.reset();
+          currentStep = 1;
+          showStep(currentStep);
+        } catch (err) {
+          console.error(err);
+          statusMsg.textContent = "حدث خطأ أثناء الإرسال. جرّب مرة أخرى ❌";
+          statusMsg.className = "text-[11px] text-red-400";
+        }
+      });
+    </script>
+  </body>
+</html>
