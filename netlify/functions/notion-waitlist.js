@@ -75,10 +75,9 @@ exports.handler = async (event, context) => {
     ? { select: { name: works_with_affiliates } }
     : undefined,
 
-  // هنا الجديد: عمود How Track Affiliate Orders في Notion
   "How Track Affiliate Orders": how_track_affiliate_orders
-    ? { rich_text: [{ text: { content: how_track_affiliate_orders } }] }
-    : undefined,
+  ? { select: { name: how_track_affiliate_orders } }
+  : undefined,
 
   "Main Problem": main_problem
     ? { rich_text: [{ text: { content: main_problem } }] }
